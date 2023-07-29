@@ -17,12 +17,14 @@ export class AppComponent implements OnInit {
   public updateUser: UpdateUserRequestDto;
   public selectedUser: GetUsersDto;
   addUserForm: FormGroup;
-  public searchName: string;
+
+  searchUserForm: FormGroup;
+
 
   constructor(
     public userMgmtService: UserManagementService,
     public formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.addUserForm = this.formBuilder.group({
@@ -34,15 +36,19 @@ export class AppComponent implements OnInit {
       phone: [''],
     });
 
+    this.searchUserForm = this.formBuilder.group({
+      searchName: ['']
+    });
+
     this.getUsers();
   }
 
-  public getUsers(): void {
+  public getUsers(searchName?: string): void {
     let params: HttpParams = new HttpParams();
     params = params.append('pageSize', 100);
     params = params.append('pageNo', 0);
     params = params.append('sortBy', '');
-    params = params.append('name', '');
+    params = params.append('name', searchName == "" ? "" : searchName);
     params = params.append('username', '');
     params = params.append('role', '');
     this.userMgmtService.getUsers(params).subscribe(
@@ -107,22 +113,10 @@ export class AppComponent implements OnInit {
   }
 
   public searchUsers(): void {
-    console.log(this.searchName);
-    // const results: Employee[] = [];
-    // for (const employee of this.employees) {
-    //   if (
-    //     employee.name.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
-    //     employee.email.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
-    //     employee.phone.toLowerCase().indexOf(key.toLowerCase()) !== -1 ||
-    //     employee.jobTitle.toLowerCase().indexOf(key.toLowerCase()) !== -1
-    //   ) {
-    //     results.push(employee);
-    //   }
-    // }
-    // this.employees = results;
-    // if (results.length === 0 || !key) {
-    //   this.getUsers();
-    // }
+    if (this.searchUserForm?.value?.searchName?.length > 3) {
+      this.getUsers(this.searchUserForm?.value?.searchName);
+    }
+
   }
 
   public onOpenModal(user: GetUsersDto, mode: string): void {
@@ -144,5 +138,9 @@ export class AppComponent implements OnInit {
     }
     container.appendChild(button);
     button.click();
+  }
+
+  openAddUserDialog(): void {
+
   }
 }

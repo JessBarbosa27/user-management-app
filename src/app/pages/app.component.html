@@ -1,38 +1,21 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" style="color: white">User Management</a>
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarColor02"
-    aria-controls="navbarColor02"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
+  <a class="navbar-brand" style="color: white; margin-left: 1rem"
+    >User Management</a
   >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarColor02">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" (click)="onOpenModal(null, 'add')"
-          >Add User <span class="sr-only">(current)</span></a
-        >
-      </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input
-        type="search"
-        (change)="searchUsers()"
-        ngModel="searchName"
-        name="key"
-        id="searchName"
-        class="form-control mr-sm-2"
-        placeholder="Search users..."
-        required
-      />
-    </form>
-  </div>
+  <form [formGroup]="searchUserForm" (ngSubmit)="searchUsers()">
+    <input
+      type="text"
+      formControlName="searchName"
+      id="name"
+      class="form-control"
+      placeholder="Search user by Name"
+      required
+      (change)="searchUsers()"
+      (keyup.enter)="searchUsers()"
+    />
+  </form>
 </nav>
+
 <div class="container" id="main-container">
   <div class="row">
     <div
@@ -107,7 +90,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form formGroup="addUserForm" (ngSubmit)="onAddUser()">
+          <form [formGroup]="addUserForm" (ngSubmit)="onAddUser()">
             <div class="form-group">
               <label for="name">Name</label>
               <input
@@ -217,7 +200,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form formGroup="addUserForm">
+          <form [formGroup]="addUserForm">
             <div class="form-group">
               <label for="name">Name</label>
               <input
