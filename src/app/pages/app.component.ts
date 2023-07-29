@@ -20,11 +20,10 @@ export class AppComponent implements OnInit {
 
   searchUserForm: FormGroup;
 
-
   constructor(
     public userMgmtService: UserManagementService,
     public formBuilder: FormBuilder
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.addUserForm = this.formBuilder.group({
@@ -37,7 +36,7 @@ export class AppComponent implements OnInit {
     });
 
     this.searchUserForm = this.formBuilder.group({
-      searchName: ['']
+      searchName: [''],
     });
 
     this.getUsers();
@@ -48,7 +47,7 @@ export class AppComponent implements OnInit {
     params = params.append('pageSize', 100);
     params = params.append('pageNo', 0);
     params = params.append('sortBy', '');
-    params = params.append('name', searchName == "" ? "" : searchName);
+    params = params.append('name', searchName == '' ? '' : searchName);
     params = params.append('username', '');
     params = params.append('role', '');
     this.userMgmtService.getUsers(params).subscribe(
@@ -116,7 +115,6 @@ export class AppComponent implements OnInit {
     if (this.searchUserForm?.value?.searchName?.length > 3) {
       this.getUsers(this.searchUserForm?.value?.searchName);
     }
-
   }
 
   public onOpenModal(user: GetUsersDto, mode: string): void {
@@ -140,7 +138,5 @@ export class AppComponent implements OnInit {
     button.click();
   }
 
-  openAddUserDialog(): void {
-
-  }
+  openAddUserDialog(): void {}
 }
